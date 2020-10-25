@@ -1,0 +1,26 @@
+{
+  "name": "rc-multi-tool",
+  "version": "0.0.1",
+  "description": "React Component Multi-tool - component extender with plugins",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "authors": {
+    "name": "Yury Goltsman",
+    "email": "yury.go@gmail.com"
+  },
+  "repository": "urrri/rc-multi-tool",
+  "scripts": {
+    "dev": "father doc dev",
+    "build": "father build",
+    "build doc": "father doc build",
+    "test": "father test"
+  },
+  "peerDependencies": {
+    "react": ">= 16.9 < 17"
+  },
+  "devDependencies": {
+    "father": "^2.29.10",
+    "enzyme-to-json": "^3.6.1"
+  },
+  "license": "MIT"
+}
