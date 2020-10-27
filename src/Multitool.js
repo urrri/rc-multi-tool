@@ -94,6 +94,6 @@ export const customizeTool = (tool, { propAliases = {}, config = {}, customParam
     outProps: rename(tool.outProps, propAliases),
     ...config,
     customParams:
-      tool.customParams && customParams ? { ...tool.customParams, ...customParams } : tool.customParams,
+      tool.customParams && customParams ? { ...tool.customParams, ...customParams } : (tool.customParams || customParams),
   };
 };
