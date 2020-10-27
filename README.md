@@ -46,11 +46,11 @@ const MyComponentMultitool = createMultitool(
 
 //...
 return (
-    <MyComponentMultitool {...myComponentProps}>
-        {
-            (multitoolProcessedProps) => <MyComponent {...multitoolProcessedProps}/>
-        }
-    </MyComponentMultitool>
+  <MyComponentMultitool {...myComponentProps}>
+    {
+      (multitoolProcessedProps) => <MyComponent {...multitoolProcessedProps}/>
+    }
+  </MyComponentMultitool>
 )
 //...
 ```
@@ -73,18 +73,18 @@ const useTableMultitool = createMultitoolHook(
 import { Table, TableSearch } from 'src/components';
 
 export function SearchableTable({items, ...otherProps}){
-    const {
-        searchProps, // props, prepared by search tool for Search component
-        items,       // items, filtered by search tool for Table component
-        ...otherTableProps
-    } = useTableMultitool({items, ...otherProps});
-    
-    return (
-        <>
-            <TableSearch {...searchProps} />
-            <Table items={items} {...otherTableProps} />;
-        </>
-    )
+  const {
+    searchProps, // props, prepared by search tool for Search component
+    items,       // items, filtered by search tool for Table component
+    ...otherTableProps
+  } = useTableMultitool({items, ...otherProps});
+
+  return (
+    <>
+      <TableSearch {...searchProps} />
+      <Table items={items} {...otherTableProps} />;
+    </>
+  )
 }
 ```
 
@@ -123,22 +123,29 @@ const useSearchableTable = (inProps, customParams) => {
 
 // define Tool
 export const searchTableTool = {
+
   // optionally declare name - can be used for debugging
   name: 'SearchableTable',
+
   // define priority for the tool according to which it will be activated;
   // Tools with the same priority will be activated in random order;
   // can be used any number, default 0
   priority: 1000,
+
   // define prop names and order for incoming props (optional)
   inProps: ['items', 'searchParams'],
+
   // define prop names to remove from list of props
   // just after processing tool and before applying results (optional)
   cleanProps: ['searchParams'],
+
   // define prop names (and order) to apply Tool processing results to (optional);
   outProps: ['items', 'searchProps'],
+
   // apply Tool Hook;
   // calling hook this way allows better naming in React DevTool;
   useTool: (...p) => useSearchableTable(...p),
+
   // use customParams to pass customizable parameters to the Tool Hook
   customParams: { searchUtil }
 };
@@ -148,13 +155,17 @@ export const searchTableTool = {
 ## Customizing third party Tool
 
 Sometimes you want to use a Tool with a component which prop names are slightly different from those used in the Tool.
-E.g. you are using different component or or there is a breaking naming change in the new version.
-Sometimes a Tool must be activated in a different sequence with another Tool, which requires a change in the activation priority.
-All that can be solved manually or by using tool customizer.
+E.g. you are using different component or there is a breaking naming change in the new version.
 
-Let's update our last example to use with table, that has "dataSource" prop instead of "items",
-requires function for filtering items
-and with another tool, that requires our tool to change priority to 500 from 1000
+Sometimes a Tool must be activated in a different sequence with another Tool, which requires a change in the activation priority.
+All that can be solved manually or by using Tool customizer.
+
+Let's update our last example to use with a table, that
+ - has a "dataSource" prop instead of "items",
+ - requires special function for filtering items
+
+and with another Tool, that
+ - requires our Tool to change the priority to 500
 
 ```javascript
 import { customizeTool, createMultitoolHook } from '@urrri/rc-multi-tool';
@@ -188,19 +199,19 @@ const useTableMultitool = createMultitoolHook(
 import { Table, TableSearch } from 'src/components';
 
 export function SearchableTable({dataSource, ...otherProps}){
-    // Note: extraction dataSource from other props is just for sample
-    const {
-        searchProps, // props, prepared by search tool for Search component
-        dataSource,  // items, filtered by search tool for Table component
-        ...otherTableProps
-    } = useTableMultitool({dataSource, ...otherProps});
+  // Note: extraction dataSource from other props is just for sample
+  const {
+    searchProps, // props, prepared by search tool for Search component
+    dataSource,  // items, filtered by search tool for Table component
+    ...otherTableProps
+  } = useTableMultitool({dataSource, ...otherProps});
 
-    return (
-        <>
-            <TableSearch {...searchProps} />
-            <Table dataSource={dataSource} {...otherTableProps} />;
-        </>
-    )
+  return (
+    <>
+      <TableSearch {...searchProps} />
+      <Table dataSource={dataSource} {...otherTableProps} />;
+    </>
+  )
 }
 ```
 
